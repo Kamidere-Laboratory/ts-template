@@ -1,0 +1,18 @@
+# I like living on the edge -- runage
+FROM node:18-alpine
+
+RUN apk update && apk upgrade --available -l --no-cache --prune && apk add --no-cache postgresql-client make python3 gcc postgresql-dev g++
+
+RUN mkdir /api && \
+chown -R node:node /api && \
+npm i -g pnpm
+
+WORKDIR /api
+
+COPY --chown=node:node package.json pnpm-lock.yaml tsconfig.json tsconfig.build.json ./
+
+USER node
+
+RUN pnpm i --frozen-lockfile
+
+CMD npx nodemon ./dist/src/main.js -w ./dist

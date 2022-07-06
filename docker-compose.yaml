@@ -1,0 +1,45 @@
+x-image: &IMAGE ${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}
+
+services:
+  api:
+    user: node:node
+    image: *IMAGE
+    ports:
+      - 8081:8081
+    volumes:
+      - ./src:/api/src:delegated,ro
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - postgres
+    secrets:
+      - source: secret
+        target: "/api/secret.json"
+        uid: "1000" # default node uid
+        gid: "1000" # default node gid
+    command: pnpm di:start:watch
+
+  postgres:
+    image: postgres:14.1-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+
+  pnpm:
+    user: node:node
+    image: *IMAGE
+    volumes:
+      - .:/api:delegated,rw
+    command: "yarn"
+
+volumes:
+  pg-data:
+
+secrets:
+  secret:
+    file: "./secret.json"

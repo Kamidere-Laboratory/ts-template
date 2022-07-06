@@ -1,0 +1,30 @@
+# Ignore all top level files and folders
+/*
+
+# Vscode
+!.vscode/
+
+# Husky
+!.husky/
+
+!docker/
+!src/
+!development-only/
+!.dockerignore
+!.editorconfig
+!.eslintrc.cjs
+!.gitattributes
+!.gitignore
+!.prettierrc
+!docker-compose.yaml
+!package.json
+!README.MD
+!pnpm-lock.yaml
+
+# Typescript
+!tsconfig.build.json
+!tsconfig.json
+
+# Templates
+!.env.template
+!secret.json.template

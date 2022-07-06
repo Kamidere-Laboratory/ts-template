@@ -1,0 +1,40 @@
+{
+  "name": "ts-template",
+  "version": "0.0.0",
+  "description": "change-me",
+  "main": "src/main.ts",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "d:build:dev": "./docker/build-image-dev.sh",
+    "d:up:dev": "COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose up api | pino-pretty -c",
+    "build": "rimraf ./dist && tsc -p ./tsconfig.json",
+    "typeorm": "typeorm-ts-node-esm",
+    "di:start:watch": "NODE_OPTIONS=\"--loader ts-node/esm --no-warnings\" NODE_ENV=development nodemon ./src/main.ts -w ./src"
+  },
+  "dependencies": {
+    "@tshio/awilix-resolver": "^2.0.1",
+    "awilix": "^7.0.3",
+    "bluebird": "^3.7.2",
+    "pg": "^8.7.3",
+    "pino": "^8.1.0",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.3.7",
+    "zod": "^3.17.3"
+  },
+  "devDependencies": {
+    "@types/bluebird": "^3.5.36",
+    "@types/node": "^18.0.3",
+    "@typescript-eslint/eslint-plugin": "^5.30.5",
+    "@typescript-eslint/parser": "^5.30.5",
+    "eslint": "^8.19.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "nodemon": "^2.0.19",
+    "pino-pretty": "^8.1.0",
+    "prettier": "^2.7.1",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.8.2",
+    "typescript": "^4.7.4"
+  }
+}
