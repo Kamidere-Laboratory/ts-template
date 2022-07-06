@@ -1,21 +1,20 @@
 module.exports = {
   env: {
-    commonjs: true,
+    commonjs: false,
     es6: true,
     node: true,
   },
-  extends: ["eslint:recommended", "prettier/@typescript-eslint", "plugin:ava/recommended"],
-  globals: {
-    NodeJS: true,
-    BigInt: true,
-  },
+  extends: ["eslint:recommended", "prettier", "plugin:import/recommended", "plugin:import/typescript"],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaVersion: 6,
     sourceType: "module",
     warnOnUnsupportedTypeScriptVersion: false,
   },
-  plugins: ["@typescript-eslint", "prettier"],
+  globals: {
+    NodeJS: true,
+  },
+  plugins: ["@typescript-eslint", "prettier", "import"],
   rules: {
     "prettier/prettier": "error",
     "no-cond-assign": [2, "except-parens"],
@@ -34,13 +33,24 @@ module.exports = {
       },
     ],
     "spaced-comment": "warn",
+    "import/no-unresolved": "error",
+    "import/order": [
+      2,
+      {
+        groups: [["builtin", "external"], "internal", "parent", "sibling", "index", "object", "type"],
+        "newlines-between": "always",
+      },
+    ],
   },
-  overrides: [
-    {
-      files: ["slash-up.config.js"],
-      env: {
-        node: true,
+  settings: {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts"],
+    },
+    "import/resolver": {
+      typescript: {
+        alwaysTryTypes: true,
+        project: "./tsconfig.json",
       },
     },
-  ],
+  },
 };
