@@ -20,6 +20,7 @@
 !package.json
 !README.MD
 !pnpm-lock.yaml
+!changelog.config.cjs
 
 # Typescript
 !tsconfig.build.json
