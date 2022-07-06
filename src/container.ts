@@ -1,9 +1,10 @@
 import { AwilixContainer, createContainer as createAwilixContainer, asValue, asFunction } from "awilix";
 import { DataSource } from "typeorm";
+import Bluebird from "bluebird";
+
 import { createPostgresClient } from "./clients/postgres/index.js";
 import { Config, createConfig } from "./shared/config/config.js";
 import { getSecretAndParse } from "./shared/config/utils.js";
-import Bluebird from "bluebird";
 
 export type Container = {
   config: Config;

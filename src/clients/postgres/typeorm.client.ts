@@ -1,10 +1,18 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { Logger } from "pino";
+
 import { Config } from "../../shared/config/config.js";
+
 import { TypeOrmPinoLogger } from "./typeorm.logger.js";
 
-export const createTypeormClient = async ({ config, logger }: { config: Config, logger: Logger }): Promise<DataSource> => {
+export const createTypeormClient = async ({
+  config,
+  logger,
+}: {
+  config: Config;
+  logger: Logger;
+}): Promise<DataSource> => {
   const dataSource = new DataSource({
     type: "postgres",
     host: config.POSTGRES_HOST,

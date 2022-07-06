@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 import { InvalidConfigError } from "./errors/invalid-config.error.js";
 
 // https://getpino.io/#/docs/api?id=level-1

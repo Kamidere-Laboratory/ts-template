@@ -1,4 +1,5 @@
 import pino, { Logger } from "pino";
+
 import { Config } from "../../shared/config/config.js";
 
 export const createPinoLogger = ({
