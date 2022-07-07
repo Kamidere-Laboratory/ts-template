@@ -1,4 +1,4 @@
-import pino, { Logger } from "pino";
+import { pino, Logger } from "pino";
 
 import { Config } from "../../shared/config/config.js";
 
@@ -16,14 +16,13 @@ export const createPinoLogger = ({
   });
 };
 
-export const createPinoLoggerDomain =
-  (domain: string) =>
-  ({
-    logger,
-  }: {
-    logger: Logger<{
-      name: string;
-      level: Config["LOG_LEVEL"];
-    }>;
-  }) =>
-    logger.child({ domain });
+export const createPinoLoggerDomain = ({
+  logger,
+  domain,
+}: {
+  domain: string;
+  logger: Logger<{
+    name: string;
+    level: Config["LOG_LEVEL"];
+  }>;
+}) => logger.child({ domain });

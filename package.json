@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "d:build:dev": "./docker/build-image-dev.sh",
-    "d:up:dev": "COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose up api | pino-pretty -c",
+    "d:up:dev": "COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose up --no-log-prefix api | pino-pretty -c",
     "build": "rimraf ./dist && tsc -p ./tsconfig.json",
     "typeorm": "typeorm-ts-node-esm",
     "di:start:watch": "NODE_OPTIONS=\"--loader ts-node/esm --no-warnings\" NODE_ENV=development nodemon ./src/main.ts -w ./src",

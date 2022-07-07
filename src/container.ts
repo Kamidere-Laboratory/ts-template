@@ -1,14 +1,17 @@
 import { AwilixContainer, createContainer as createAwilixContainer, asValue, asFunction } from "awilix";
 import { DataSource } from "typeorm";
 import Bluebird from "bluebird";
+import { Logger } from "pino";
 
 import { createPostgresClient } from "./clients/postgres/index.js";
 import { Config, createConfig } from "./shared/config/config.js";
 import { getSecretAndParse } from "./shared/config/utils.js";
+import { createDomainLogger, createLogger } from "./clients/logger/index.js";
 
 export type Container = {
   config: Config;
   database: DataSource;
+  logger: Logger;
 };
 
 export const createMainContainer = async (): Promise<AwilixContainer<Container>> => {
@@ -17,6 +20,7 @@ export const createMainContainer = async (): Promise<AwilixContainer<Container>>
   const secret = await getSecretAndParse();
 
   container.register("config", asValue(await createConfig({ ...process.env, ...secret } as any)));
+  container.register("logger", asFunction(createLogger));
   container.register("database", asFunction(createPostgresClient).singleton());
 
   return container;
@@ -27,9 +31,16 @@ export const createDomainContainer = async <
   ExportedDeps extends ProvidedDeps | object,
 >(
   mainContainer: AwilixContainer<Container>,
-  dependencyRegistrars: ((constainer: AwilixContainer<ProvidedDeps>) => Promise<AwilixContainer<ProvidedDeps>>)[],
+  domainName: string,
+  dependencyRegistrars: ((
+    constainer: AwilixContainer<ProvidedDeps>,
+  ) => AwilixContainer<ProvidedDeps> | Promise<AwilixContainer<ProvidedDeps>>)[],
 ): Promise<AwilixContainer<Container & ExportedDeps>> => {
   const domainContainer = mainContainer.createScope<ProvidedDeps>();
+  domainContainer.register(
+    "logger",
+    asValue(createDomainLogger({ logger: mainContainer.cradle.logger, domain: domainName })),
+  );
   await Bluebird.each(dependencyRegistrars, (dr) => dr(domainContainer));
 
   // ! is specified in return type, to only show ExportedDeps and MainContainerDeps

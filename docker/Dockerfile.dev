@@ -9,7 +9,7 @@ npm i -g pnpm
 
 WORKDIR /api
 
-COPY --chown=node:node package.json pnpm-lock.yaml tsconfig.json tsconfig.build.json ./
+COPY --chown=node:node package.json pnpm-lock.yaml tsconfig.json ./
 
 USER node
 

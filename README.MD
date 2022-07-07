@@ -16,3 +16,4 @@ Features<small> I think 🤔</small>:
 - Splits config into two files `.env` and `secret.json`. <small> Is not confusing at all, trust me :D</small>
 - All imports from your code need to be ended with `.js`
 - Eslint and Prettier to keep your code from looking like garbage.
+- Commitizen and git-cz to make your developers think which type choose for commit.
